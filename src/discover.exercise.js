@@ -6,11 +6,29 @@ import Tooltip from '@reach/tooltip'
 import {FaSearch} from 'react-icons/fa'
 import {Input, BookListUL, Spinner} from './components/lib'
 import {BookRow} from './components/book-row'
+import {useState} from 'react'
+import {useEffect} from 'react'
 // 🐨 import the client from './utils/api-client'
 
 function DiscoverBooksScreen() {
+  const [query, setQuery] = useState()
   // 🐨 add state for status ('idle', 'loading', or 'success'), data, and query
-  const data = null // 💣 remove this, it's just here so the example doesn't explode
+  const [queried, setQueried] = react.useState(false)
+  const data = null // 💣 remove  this, it's just here so the example doesn't explode
+  const isLoading = false
+  const isSuccess = false
+
+  useEffect(() => {
+    window
+      .fetch(
+        `${process.env.REACT_APP_API_URL}/books?query=${encodeURIComponent(
+          query,
+        )}`,
+      )
+      .then(response => {
+        console.log(response.json)
+      })
+  }, [query])
   // 🐨 you'll also notice that we don't want to run the search until the
   // user has submitted the form, so you'll need a boolean for that as well
   // 💰 I called it "queried"
@@ -23,10 +41,10 @@ function DiscoverBooksScreen() {
   // they haven't then return early (💰 this is what the queried state is for).
 
   // 🐨 replace these with derived state values based on the status.
-  const isLoading = false
-  const isSuccess = false
 
   function handleSearchSubmit(event) {
+    event.preventDefault()
+    setQuery(event.target.elements.search.value)
     // 🐨 call preventDefault on the event so you don't get a full page reload
     // 🐨 set the queried state to true
     // 🐨 set the query value which you can get from event.target.elements
