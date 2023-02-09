@@ -15,7 +15,7 @@ API in action:
 window
   .fetch('http://example.com/movies.json')
   .then(response => {
-    return response.json()
+    return resp onse.json()
   })
   .then(data => {
     console.log(data)
